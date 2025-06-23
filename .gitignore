@@ -1,0 +1,21 @@
+build/
+
+# Build artifacts
+*.o
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+*.vst3/
+*.clap
+*.component
+
+# Distribution
+/dist/
+
+# Generated files
+compile_commands.json
+
+# Logs
+*.log

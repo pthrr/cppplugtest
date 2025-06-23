@@ -1,0 +1,31 @@
+version: '3'
+
+env:
+  SCCACHE_ENDPOINT: "nwv-srv:4226"
+  SCCACHE_LOG_LEVEL: "info"
+  RUST_LOG: "sccache=info"
+
+tasks:
+  build:
+    cmds:
+      - cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DUSE_SCCACHE=ON
+      - cmake --build build --parallel
+
+  test:
+    deps: [build]
+    cmds:
+      - cd build && ctest --output-on-failure
+
+  bundle:
+    deps: [build]
+    cmds:
+      - cd build && cpack
+
+  clean:
+    cmds:
+      - rm -rf build
+
+  stats:
+    desc: Show sccache statistics
+    cmds:
+      - sccache --show-stats
